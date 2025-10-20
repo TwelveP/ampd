@@ -1,6 +1,7 @@
 package org.hihn.ampd.server.service.scrobbler;
 
 import org.bff.javampd.playlist.MPDPlaylistSong;
+import org.hihn.ampd.server.Constants;
 import org.hihn.ampd.server.model.AmpdSettings;
 import org.hihn.ampd.server.util.StringUtils;
 import org.hihn.listenbrainz.*;
@@ -101,9 +102,10 @@ public class ListenBrainzScrobbleService implements AmpdScrobbler {
 		info.setSubmissionClientVersion(ampdSettings.getVersion());
 		info.setDurationMs(currentSong.getLength() * 1000);
 
-		extractTrackMapKey(currentSong.getTagMap().get("MUSICBRAINZ_RELEASETRACKID")).ifPresent(info::setTrackMbid);
-		extractTrackMapKey(currentSong.getTagMap().get("MUSICBRAINZ_ALBUMID")).ifPresent(info::setReleaseMbid);
-		extractTrackMapKey(currentSong.getTagMap().get("MUSICBRAINZ_ARTISTID"))
+		extractTrackMapKey(currentSong.getTagMap().get(Constants.MUSICBRAINZ_RELEASETRACKID))
+			.ifPresent(info::setTrackMbid);
+		extractTrackMapKey(currentSong.getTagMap().get(Constants.MUSICBRAINZ_ALBUMID)).ifPresent(info::setReleaseMbid);
+		extractTrackMapKey(currentSong.getTagMap().get(Constants.MUSICBRAINZ_ARTISTID))
 			.ifPresent(artistMbId -> info.setArtistMbids(List.of(artistMbId)));
 		return info;
 	}
