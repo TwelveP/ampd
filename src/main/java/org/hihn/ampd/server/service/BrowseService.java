@@ -30,7 +30,7 @@ public class BrowseService {
 
 	/**
 	 * Generell browse request for a path. Includes directories, tracks and playlists.
-	 * @param path The path to browse
+	 * @param pathP The path to browse
 	 * @return Object with the directories, tracks and playlist of the given path.
 	 */
 	public BrowsePayload browse(String pathP) {
