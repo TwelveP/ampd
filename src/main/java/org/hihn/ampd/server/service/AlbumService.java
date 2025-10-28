@@ -61,7 +61,8 @@ public class AlbumService {
 	@Scheduled(fixedDelay = 60, initialDelay = 1, timeUnit = TimeUnit.MINUTES)
 	public void fillAlbumsCache() {
 		LOG.info("Begin filling albums cache...");
-		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbums().parallelStream()
+		albums = mpd.getMusicDatabase().getAlbumDatabase().listAllAlbumNames().stream()
+		.flatMap(name -> mpd.getMusicDatabase().getAlbumDatabase().findAlbum(name).parallelStream())
 		.peek(a -> LOG.trace(a.toString()))
 		.filter(album -> {
 			if (album.getName().isBlank()) {
